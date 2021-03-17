@@ -1,4 +1,7 @@
 from db import db
+from datetime import datetime
+from flask_jwt_extended import create_access_token
+
 
 class USER(db.Model):
     __tablename__ = 'users'
@@ -7,11 +10,27 @@ class USER(db.Model):
     name = db.Column(db.String(100))
     email = db.Column(db.String(100))
     age = db.Column(db.Integer)
+    createdAt = db.Column(db.String(100))
+    uploadAt = db.Column(db.String(100))
 
-    def __init__(self, name, email, age):
+    def __init__(self, name, email, age, password):
         self.name = name
         self.email = email
         self.age = age
+        self.password = password
+        self.createdAt = datetime.now()
+        self.uploadAt = datetime.now()
+
+    def json(self):
+        return {
+            'age': self.age,
+            'id': self.id,
+            'name': self.name,
+            'email': self.email,
+            'createdAt': self.createdAt,
+            'updatedAt': self.uploadAt,
+            'token': self.get_access_token()
+        }
 
     @classmethod
     def find_by_name(cls, name):
@@ -24,3 +43,13 @@ class USER(db.Model):
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
+
+    def updated_at(self):
+        self.uploadAt = datetime.now()
+        self.save_to_db()
+
+
+    def get_access_token(self):
+        acces_token = create_access_token(identity=self.id, fresh=True)
+        return acces_token
+
