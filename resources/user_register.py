@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from models.user import USER
+from models.user import USERMODEL
 
 
 class registration(Resource):
@@ -28,12 +28,12 @@ class registration(Resource):
     def post(self):
         data = self.parser.parse_args()
 
-        new_user = USER.find_by_email(data['email'])
+        new_user = USERMODEL.find_by_email(data['email'])
         if new_user:
             return {
                        'massage': "this email already exists"
                    }, 400
 
-        new_user = USER(**data)
+        new_user = USERMODEL(**data)
         new_user.save_to_db()
         return new_user.json()
