@@ -19,4 +19,4 @@ class update(Resource):
         user = USERMODEL.find_by_id(_id)
         user.age = data['age']
         user.save_to_db()
-        return user.json()
+        return user.json(), 200

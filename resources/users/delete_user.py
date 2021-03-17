@@ -9,14 +9,17 @@ class delete_user(Resource):
     def delete(self):
         verify_jwt_in_request()
         _id = get_jwt_identity()
-        print(_id)
         user = USERMODEL.find_by_id(_id)
-        print(user)
         if not user:
             return{
                 'massage': 'Please authenticate.'
             }, 401
         values = user.json()
         user.delete_to_db()
+        #delete to blacklist
+        jti = get_jwt()["jti"]
+        token = user_logout_model(jti)
+        token.add_to_blacklist()
+
         return values
 

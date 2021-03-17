@@ -38,4 +38,4 @@ class registration(Resource):
         new_user.save_to_db()
         values = new_user.json()
         values['token'] = new_user.get_access_token()
-        return values
+        return values, 201

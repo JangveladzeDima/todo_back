@@ -28,4 +28,4 @@ class login(Resource):
         values = user_login_email.json()
 
         values['token'] = user_login_email.get_access_token()
-        return values
+        return values, 200

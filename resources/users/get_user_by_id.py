@@ -10,4 +10,4 @@ class get_user(Resource):
         verify_jwt_in_request()
         _id = get_jwt_identity()
         user = USERMODEL.find_by_id(_id)
-        return user.json()
+        return user.json(), 200

@@ -2,12 +2,14 @@ from flask import Flask
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 
-from resources.user_register import registration
-from resources.user_login import login
-from resources.user_logout import logout
-from resources.get_user_by_id import get_user
-from resources.update_profil import update
-from resources.delete_user import delete_user
+from resources.users.user_register import registration
+from resources.users.user_login import login
+from resources.users.user_logout import logout
+from resources.users.get_user_by_id import get_user
+from resources.users.update_profil import update
+from resources.users.delete_user import delete_user
+from resources.tasks.add_task import new_task, all_task, update_delete_tasks
+from resources.tasks.get_tasks import get_task_by_id
 
 from models.user_logout import user_logout_model
 
@@ -42,6 +44,10 @@ api.add_resource(logout, '/user/logout')
 api.add_resource(get_user, '/user/me')
 api.add_resource(update, '/user/me')
 api.add_resource(delete_user, '/user/me')
+api.add_resource(new_task, '/task')
+api.add_resource(all_task, '/task')
+api.add_resource(get_task_by_id, '/task/<int:task_id>')
+api.add_resource(update_delete_tasks, '/task/<int:task_id>')
 
 if __name__ == '__main__':
     from db import db
