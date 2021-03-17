@@ -29,9 +29,12 @@ class USERMODEL(db.Model):
             'name': self.name,
             'email': self.email,
             'createdAt': self.createdAt,
-            'updatedAt': self.uploadAt,
-            'token': self.get_access_token()
+            'updatedAt': self.uploadAt
         }
+
+    @classmethod
+    def find_by_id(cls, _id):
+        return cls.query.filter_by(id=_id).first()
 
     @classmethod
     def find_by_name(cls, name):
@@ -52,6 +55,10 @@ class USERMODEL(db.Model):
     def updated_at(self):
         self.uploadAt = datetime.now()
         self.save_to_db()
+
+    def delete_to_db(self):
+        db.session.delete(self)
+        db.session.commit()
 
     def get_access_token(self):
         acces_token = create_access_token(identity=self.id, fresh=True)

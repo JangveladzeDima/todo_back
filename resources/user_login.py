@@ -25,4 +25,7 @@ class login(Resource):
                    }, 400
 
         user_login_email.updated_at()
-        return user_login_email.json()
+        values = user_login_email.json()
+
+        values['token'] = user_login_email.get_access_token()
+        return values
