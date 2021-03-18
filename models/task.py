@@ -38,5 +38,9 @@ class TASKMODEL(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_task(cls, task_id, owner_id):
+    def get_task_to_id(cls, task_id, owner_id):
         return cls.query.filter_by(id=task_id, owner=owner_id).first()
+
+    @classmethod
+    def get_task_to_complated(cls, owner_id, value):
+        return cls.query.filter_by(owner=owner_id, completed=value).all()
