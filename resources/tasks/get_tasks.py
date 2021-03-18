@@ -7,9 +7,9 @@ class get_task_by_id(Resource):
     def get(self, task_id):
         verify_jwt_in_request()
         owner_id = get_jwt_identity()
-        all_tasks = TASKMODEL.get_task(task_id, owner_id)
-        if not all_tasks:
+        task_by_id = TASKMODEL.get_task(task_id, owner_id)
+        if not task_by_id:
             return {
                 'task not found'
             }, 400
-        return {'data': [x.json() for x in all_tasks]}
+        return {'data': task_by_id.json()}

@@ -39,4 +39,4 @@ class TASKMODEL(db.Model):
 
     @classmethod
     def get_task(cls, task_id, owner_id):
-        return cls.query.filter_by(id=1).first()
+        return cls.query.filter_by(id=task_id, owner=owner_id).first()

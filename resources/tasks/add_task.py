@@ -49,29 +49,30 @@ class update_delete_tasks(Resource):
     @jwt_required()
     def put(self, task_id):
         verify_jwt_in_request()
-        _id = jwt_required()
+        owner_id = get_jwt_identity()
 
         data = self.parser.parse_args()
-        update_task = TASKMODEL.get_task(task_id, _id)
+        update_task = TASKMODEL.get_task(task_id, owner_id)
         if not update_task:
             return {
-                       'taks not found'
+                       'task not found'
                    }, 400
-        #update_task.completed = data['completed']
-        #update_task.save_to_db()
-        return 1 #update_task.json()
+        update_task.completed = data['completed']
+        update_task.save_to_db()
+        return {'update': 'success',  'data': update_task.json()}
 
     @jwt_required()
     def delete(self, task_id):
         verify_jwt_in_request()
-        _id = jwt_required()
+        owner_id = get_jwt_identity()
 
-        delete_task = TASKMODEL.get_task(task_id, _id)
+        delete_task = TASKMODEL.get_task(task_id, owner_id)
+        print(delete_task)
         if not delete_task:
             return {
-                'taks not found'
+                'massage': 'task not found'
             }, 400
         delete_task.delete_to_db()
         return{
-            'taks deleted'
+            'massage': 'task deleted'
         }, 200
