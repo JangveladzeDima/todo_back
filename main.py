@@ -5,11 +5,10 @@ from flask_jwt_extended import JWTManager
 from resources.users.user_register import registration
 from resources.users.user_login import login
 from resources.users.user_logout import logout
-from resources.users.get_user_by_id import get_user
-from resources.users.update_profil import update
-from resources.users.delete_user import delete_user
-from resources.tasks.add_task import new_task, all_task, update_delete_tasks
-from resources.tasks.get_tasks import get_task_by_id
+from resources.users.get_update_delete import update_get_delete
+
+from resources.tasks.add_task import get_add_task
+from resources.tasks.get_id_update_delete import update_delete_get_id
 
 from models.user_logout import user_logout_model
 
@@ -38,16 +37,14 @@ def check_token_in_blacklist(jwt_header, jwt_payload):
         return True
     return False
 
+
 api.add_resource(registration, '/user/register')
+
 api.add_resource(login, '/user/login')
 api.add_resource(logout, '/user/logout')
-api.add_resource(get_user, '/user/me')
-api.add_resource(update, '/user/me')
-api.add_resource(delete_user, '/user/me')
-api.add_resource(new_task, '/task')
-api.add_resource(all_task, '/task')
-api.add_resource(get_task_by_id, '/task/<int:task_id>')
-api.add_resource(update_delete_tasks, '/task/<int:task_id>')
+api.add_resource(update_get_delete, '/user/me')
+api.add_resource(get_add_task, '/task')
+api.add_resource(update_delete_get_id, '/task/<int:task_id>')
 
 if __name__ == '__main__':
     from db import db

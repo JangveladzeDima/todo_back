@@ -1,5 +1,6 @@
 from db import db
 
+
 class user_logout_model(db.Model):
     __tablename__ = 'blacklist'
 
