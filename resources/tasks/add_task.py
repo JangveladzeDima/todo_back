@@ -29,6 +29,22 @@ class all_task(Resource):
         verify_jwt_in_request()
         owner_id = get_jwt_identity()
         value = request.args.get("completed")
+        limit = request.args.get("limit")
+        skip = request.args.get("skip")
+        tasks = []
+        if limit and skip:
+            limit = int(limit)
+            skip = int(skip)
+            cnt = 0
+            cnt1 = 0
+            for i in TASKMODEL.query.filter_by(owner=owner_id):
+                if cnt >= skip and cnt1 < limit:
+                    tasks.append(i)
+                    cnt1 += 1
+                cnt += 1
+            return {
+                'data': [x.json() for x in tasks]
+            }
         if value:
             if value == 'true':
                 value = bool(True)
@@ -38,7 +54,6 @@ class all_task(Resource):
             return {
                 'data': [x.json() for x in task_complated]
             }
-        tasks = []
         counter = 0
         for i in TASKMODEL.query.filter_by(owner=owner_id):
             tasks.append(i.json())
