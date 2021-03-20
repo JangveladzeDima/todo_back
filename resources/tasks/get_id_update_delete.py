@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.task import TASKMODEL
+from models.delete_tasks import delete_taks_model
 from flask_jwt_extended import jwt_required, verify_jwt_in_request, get_jwt_identity
 
 
@@ -53,6 +54,8 @@ class update_delete_get_id(Resource):
                 'success': False,
                 'massage': 'task not found'
             }, 400
+        add_delete_task = delete_taks_model(delete_task.description, delete_task.owner)
+        add_delete_task.save_to_db()
         delete_task.delete_to_db()
         return {
                    'success': True

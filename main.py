@@ -10,6 +10,7 @@ from resources.users.get_update_delete import update_get_delete
 
 from resources.tasks.add_task import get_add_task
 from resources.tasks.get_id_update_delete import update_delete_get_id
+from resources.tasks.deleted_tasks import deleted_task
 
 from models.user_logout import user_logout_model
 
@@ -47,6 +48,7 @@ api.add_resource(logout, '/user/logout')
 api.add_resource(update_get_delete, '/user/me')
 api.add_resource(get_add_task, '/task')
 api.add_resource(update_delete_get_id, '/task/<int:task_id>')
+api.add_resource(deleted_task, '/task/deleted')
 
 if __name__ == '__main__':
     from db import db
