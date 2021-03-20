@@ -37,5 +37,8 @@ class registration(Resource):
         new_user = USERMODEL(**data)
         new_user.save_to_db()
         values = new_user.json()
-        values['token'] = new_user.get_access_token()
-        return values, 201
+        new_token = new_user.get_access_token()
+        return {
+            'user': values,
+            'token': new_token
+        }

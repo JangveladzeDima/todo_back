@@ -20,7 +20,10 @@ class update_delete_get_id(Resource):
             return {
                        'result': 'task not found'
                    }, 400
-        return {'data': task_by_id.json()}
+        return {
+            'success': True,
+            'data': task_by_id.json()
+        }
 
     @jwt_required()
     def put(self, task_id):
@@ -35,7 +38,9 @@ class update_delete_get_id(Resource):
                    }, 400
         update_task.completed = data['completed']
         update_task.save_to_db()
-        return {'update': 'success', 'data': update_task.json()}
+        return {'success': True,
+                'data': update_task.json()
+                }
 
     @jwt_required()
     def delete(self, task_id):
@@ -45,9 +50,10 @@ class update_delete_get_id(Resource):
         delete_task = TASKMODEL.get_task_to_id(task_id, owner_id)
         if not delete_task:
             return {
-                       'massage': 'task not found'
-                   }, 400
+                'success': False,
+                'massage': 'task not found'
+            }, 400
         delete_task.delete_to_db()
         return {
-                   'massage': 'task deleted'
+                   'success': True
                }, 200

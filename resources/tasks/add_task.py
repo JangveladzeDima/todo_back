@@ -20,7 +20,10 @@ class get_add_task(Resource):
 
         new_task = TASKMODEL(data['description'], _id)
         new_task.save_to_db()
-        return new_task.json()
+        return {
+            'success': True,
+            'data': new_task.json()
+        }
 
     @jwt_required()
     def get(self):
@@ -41,6 +44,7 @@ class get_add_task(Resource):
                     cnt1 += 1
                 cnt += 1
             return {
+                'count': len(tasks),
                 'data': [x.json() for x in tasks]
             }
         if value:
@@ -50,6 +54,7 @@ class get_add_task(Resource):
                 value = bool(False)
             task_complated = TASKMODEL.get_task_to_complated(owner_id, value)
             return {
+                'count': len(task_complated),
                 'data': [x.json() for x in task_complated]
             }
         counter = 0

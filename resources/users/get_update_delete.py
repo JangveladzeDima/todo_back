@@ -21,7 +21,7 @@ class update_get_delete(Resource):
             return {
                        'massage': 'Please authenticate.'
                    }, 401
-        values = user.json()
+        values = user.json() # deleted user values
         user.delete_to_db()
         # delete to blacklist
         jti = get_jwt()["jti"]
@@ -38,7 +38,11 @@ class update_get_delete(Resource):
         user = USERMODEL.find_by_id(_id)
         user.age = data['age']
         user.save_to_db()
-        return user.json(), 200
+        return {
+            'success': True,
+            'data': user.json()
+        }, 200
+        #return user.json(), 200
 
     @jwt_required()
     def get(self):

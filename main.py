@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 from resources.users.user_register import registration
 from resources.users.user_login import login
@@ -28,6 +29,7 @@ def create_table():
 
 
 jwt = JWTManager(app)
+CORS(app)
 
 
 @jwt.token_in_blocklist_loader

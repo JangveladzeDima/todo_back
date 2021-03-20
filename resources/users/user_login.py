@@ -27,5 +27,8 @@ class login(Resource):
         user_login_email.updated_at()
         values = user_login_email.json()
 
-        values['token'] = user_login_email.get_access_token()
-        return values, 200
+        new_token = user_login_email.get_access_token()
+        return{
+            'user': values,
+            'token': new_token
+        }
